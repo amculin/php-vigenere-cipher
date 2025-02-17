@@ -1,7 +1,11 @@
 {
-    "name": "amculin/classic-encryption",
+    "name": "amculin/vigenere-cipher",
     "license": "MIT",
-    "description": "Simple implementation of classic cryptography algorithm using PHP",
+    "description": "Implementation of Vigenere Cipher algorithm in PHP",
+    "keywords": [
+        "php", "encryption", "decryption", "vigenere cipher", "classic cryptography", "cryptography",
+        "encrypt", "decrypt"
+    ],
     "authors": [
         {
             "name": "Fahmi Auliya Tsani",
@@ -11,7 +15,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "amculin\\encryption\\": "source/"
+            "amculin\\cryptography\\classic\\": "source/"
         }
     }
 }
