@@ -17,5 +17,8 @@
         "psr-4": {
             "amculin\\cryptography\\classic\\": "source/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
     }
 }
