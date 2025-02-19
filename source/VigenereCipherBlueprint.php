@@ -49,16 +49,24 @@ abstract class VigenereCipherBlueprint
             if (! is_null($data) && ! is_null($key)) {
                 $this->setPlainText($data);
                 $this->setKey($key);
-                $this->encrypt();
+
+                if ($this->isValid()) {
+                    $this->encrypt();
+                }
             }
         } else {
             if (! is_null($data) && ! is_null($key)) {
                 $this->setCipherText($data);
                 $this->setKey($key);
-                $this->decrypt();
+
+                if ($this->isValid()) {
+                    $this->decrypt();
+                }
             }
         }
     }
+
+    abstract public function isValid(): bool;
 
     /**
      * Method to get current process
