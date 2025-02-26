@@ -94,7 +94,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getPlainText(): string
+    public function getPlainText(): string|null
     {
         return $this->plainText;
     }
@@ -138,7 +138,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getCipherText(): string
+    public function getCipherText(): string|null
     {
         return $this->cipherText;
     }
