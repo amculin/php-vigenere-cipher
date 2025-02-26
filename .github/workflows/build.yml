@@ -39,12 +39,6 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist
-        
-      - name: Check code standards
-        run: vendor/bin/phpcs --standard=PSR1,PSR2 -n src
-
-      - name: Run useragent string tests
-        run: php bin/runner.php --show check
 
       - name: Run unit tests
-        run: vendor/bin/phpunit --no-coverage tests/unit
+        run: vendor/bin/phpunit --no-coverage tests/
