@@ -17,7 +17,7 @@ class VigenereCipher
         }
     }
 
-    public static function encrypt(string $data, string $key, string $mode = 'basic'): string
+    public static function encrypt(string $data, string $key, string $mode = 'basic'): string|null
     {
         $className = self::getClassName($mode);
 
@@ -28,7 +28,7 @@ class VigenereCipher
         return $encrypt->getCipherText();
     }
 
-    public static function decrypt(string $data, string $key, string $mode = 'basic'): string
+    public static function decrypt(string $data, string $key, string $mode = 'basic'): string|null
     {
         $className = self::getClassName($mode);
 

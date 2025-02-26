@@ -46,7 +46,8 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
             }
         } catch(InvalidAlnumException $e) {
             echo $e->errorMessage();
-            exit();
+
+            return false;
         }
 
         return true;
