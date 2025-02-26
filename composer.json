@@ -17,5 +17,8 @@
         "psr-4": {
             "amculin\\cryptography\\classic\\": "source/"
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1"
     }
 }
