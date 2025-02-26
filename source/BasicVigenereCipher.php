@@ -43,7 +43,8 @@ class BasicVigenereCipher extends VigenereCipherBlueprint
             }
         } catch(InvalidBasicException $e) {
             echo $e->errorMessage();
-            exit();
+
+            return false;
         }
 
         return true;
