@@ -1,6 +1,7 @@
 <?php
 namespace amculin\cryptography\classic;
 
+use amculin\cryptography\classic\VigenereCipherBlueprint;
 use amculin\cryptography\classic\enums\ProcessType;
 use amculin\cryptography\classic\enums\VigenereMode;
 
@@ -9,33 +10,36 @@ class VigenereCipher
     public static function getClassName(string $mode): string
     {
         $path = 'amculin\cryptography\classic\\';
+        $className = 'BasicVigenereCipher';
 
-        if ($mode == VigenereMode::BASIC->value) {
-            return $path . 'BasicVigenereCipher';
-        } elseif ($mode == VigenereMode::ALPHA_NUMERIC->value) {
-            return $path . 'AlnumVigenereCipher';
+        if ($mode == VigenereMode::ALPHA_NUMERIC->value) {
+            $className = 'AlnumVigenereCipher';
         }
+
+        return $path . $className;
     }
 
-    public static function encrypt(string $data, string $key, string $mode = 'basic'): string|null
+    public static function encrypt(string $data, string $key, string $mode = 'basic'): string
     {
         $className = self::getClassName($mode);
 
         $processName = ProcessType::ENCRYPT->value;
 
-        $encrypt = new $className($processName, $data, $key);
+        /** @var VigenereCipherBlueprint $encrypt */
+        $encrypt = new $className($data, $key, $processName);
 
-        return $encrypt->getCipherText();
+        return $encrypt->cipherText;
     }
 
-    public static function decrypt(string $data, string $key, string $mode = 'basic'): string|null
+    public static function decrypt(string $data, string $key, string $mode = 'basic'): string
     {
         $className = self::getClassName($mode);
 
         $processName = ProcessType::DECRYPT->value;
 
-        $decrypt = new $className($processName, $data, $key);
+        /** @var VigenereCipherBlueprint $decrypt */
+        $decrypt = new $className($data, $key, $processName);
 
-        return $decrypt->getPlainText();
+        return $decrypt->plainText;
     }
 }

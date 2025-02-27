@@ -8,36 +8,78 @@ use amculin\cryptography\classic\exceptions\InvalidBasicException;
  * This file is the main class for basic vigenere cipher algortithm
  *
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
- * @version 0.2
+ * @version 1.1
  */
-
+#[\AllowDynamicProperties]
 class BasicVigenereCipher extends VigenereCipherBlueprint
 {
+    public function __construct(
+        public string $data,
+        public string $key,
+        public string $process = 'encrypt'
+    ) {
+        $this->process = $process;
+        $this->tabulaRecta = 'abcdefghijklmnopqrstuvwxyz';
+
+        if ($process == ProcessType::ENCRYPT->value) {
+            $this->plainText = $data;
+            $this->key = $this->generateKey($key);
+
+            if ($this->isValid()) {
+                $this->encrypt();
+            }
+        } else {
+            $this->cipherText = $data;
+            $this->key = $this->generateKey($key);
+
+            if ($this->isValid()) {
+                $this->decrypt();
+            }
+        }
+    }
+
     /**
      * @inheritdoc
      */
-    public $tabulaRecta = 'abcdefghijklmnopqrstuvwxyz';
+    public function isValidKey(string $pattern): bool
+    {
+        return preg_match($pattern, $this->key) == 1;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function isValidPlainText(string $pattern): bool
+    {
+        return preg_match($pattern, $this->plainText) == 1;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isValidCipherText(string $pattern): bool
+    {
+        return preg_match($pattern, $this->cipherText) == 1;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isValid(): bool
     {
         try {
             $pattern = '/^[a-z]*$/';
-            $isValid = preg_match($pattern, $this->key);
 
-            if (! $isValid) {
+            if (! $this->isValidKey($pattern)) {
                 throw new InvalidBasicException('Key');
             }
 
             if ($this->process == ProcessType::ENCRYPT->value) {
-                $isValid = preg_match($pattern, $this->plainText) && $isValid;
-
-                if (! $isValid) {
+                if (! $this->isValidPlainText($pattern)) {
                     throw new InvalidBasicException('Plain text');
                 }
             } else {
-                $isValid = preg_match($pattern, $this->cipherText) && $isValid;
-
-                if (! $isValid) {
+                if (! $this->isValidCipherText($pattern)) {
                     throw new InvalidBasicException('Cipher text');
                 }
             }
@@ -46,6 +88,8 @@ class BasicVigenereCipher extends VigenereCipherBlueprint
 
             return false;
         }
+
+        $this->setIsValid(true);
 
         return true;
     }
