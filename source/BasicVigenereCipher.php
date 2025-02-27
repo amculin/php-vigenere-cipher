@@ -10,6 +10,7 @@ use amculin\cryptography\classic\exceptions\InvalidBasicException;
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
  * @version 1.1
  */
+#[\AllowDynamicProperties]
 class BasicVigenereCipher extends VigenereCipherBlueprint
 {
     public function __construct(

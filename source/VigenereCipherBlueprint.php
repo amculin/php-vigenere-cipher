@@ -3,6 +3,7 @@ namespace amculin\cryptography\classic;
 
 use amculin\cryptography\classic\enums\ProcessType;
 
+#[\AllowDynamicProperties]
 abstract class VigenereCipherBlueprint
 {
     /**
@@ -25,7 +26,7 @@ abstract class VigenereCipherBlueprint
      *
      * @var string
      */
-    public string $plainText;
+    public string $plainText = '';
 
     /**
      * The key used to encrypt plain text/message
@@ -47,7 +48,7 @@ abstract class VigenereCipherBlueprint
      *
      * @var string
      */
-    public string $cipherText;
+    public string $cipherText = '';
 
     /**
      * Method to validate key, plainText, and cipherText
@@ -127,7 +128,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getPlainText(): string|null
+    public function getPlainText(): string
     {
         return $this->plainText;
     }
@@ -171,7 +172,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getCipherText(): string|null
+    public function getCipherText(): string
     {
         return $this->cipherText;
     }
