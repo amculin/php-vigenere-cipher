@@ -1,4 +1,5 @@
 <?php
+
 namespace amculin\cryptography\classic\exceptions;
 
 class InvalidAlnumException extends \Exception

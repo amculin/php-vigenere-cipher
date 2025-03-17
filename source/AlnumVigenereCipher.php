@@ -1,4 +1,5 @@
 <?php
+
 namespace amculin\cryptography\classic;
 
 use amculin\cryptography\classic\enums\ProcessType;
@@ -9,6 +10,7 @@ use amculin\cryptography\classic\exceptions\InvalidAlnumException;
  *
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
  * @version 1.1
+ * @psalm-api
  */
 class AlnumVigenereCipher extends VigenereCipherBlueprint
 {
@@ -42,7 +44,11 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
      */
     public function isValidKey(string $pattern): bool
     {
-        return preg_match($pattern, $this->key) == 1;
+        if ($pattern != '') {
+            return preg_match($pattern, $this->key) == 1;
+        }
+
+        return false;
     }
 
     /**
@@ -50,7 +56,11 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
      */
     public function isValidPlainText(string $pattern): bool
     {
-        return preg_match($pattern, $this->plainText) == 1;
+        if ($pattern != '') {
+            return preg_match($pattern, $this->plainText) == 1;
+        }
+
+        return false;
     }
 
     /**
@@ -58,7 +68,11 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
      */
     public function isValidCipherText(string $pattern): bool
     {
-        return preg_match($pattern, $this->cipherText) == 1;
+        if ($pattern != '') {
+            return preg_match($pattern, $this->cipherText) == 1;
+        }
+
+        return false;
     }
 
     /**
@@ -82,7 +96,7 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
                     throw new InvalidAlnumException('Cipher text');
                 }
             }
-        } catch(InvalidAlnumException $e) {
+        } catch (InvalidAlnumException $e) {
             echo $e->errorMessage();
 
             return false;
