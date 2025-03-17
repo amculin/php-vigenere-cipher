@@ -6,10 +6,10 @@ use amculin\cryptography\classic\enums\VigenereMode;
 
 final class VigenereCipherTest extends TestCase
 {
-    const BASIC_ALLOWED_CHARS = '/[a-z]/';
-    const ALNUM_ALLOWED_CHARS = '/[a-zA-Z0-9]/';
+    public const BASIC_ALLOWED_CHARS = '/[a-z]/';
+    public const ALNUM_ALLOWED_CHARS = '/[a-zA-Z0-9]/';
 
-    public function testCanEncryptInBasicMode():void
+    public function testCanEncryptInBasicMode(): void
     {
         $allowedChars = $this::BASIC_ALLOWED_CHARS;
         $data = 'encryptionprocess';
@@ -25,7 +25,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertMatchesRegularExpression($allowedChars, $encrypted);
     }
 
-    public function testCanNotEncryptInBasicModeWithInvalidKey():void
+    public function testCanNotEncryptInBasicModeWithInvalidKey(): void
     {
         $data = 'encryptionprocess';
         $key = 'thekey-';
@@ -35,7 +35,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals('', $encrypted);
     }
 
-    public function testCanDecryptInBasicMode():void
+    public function testCanDecryptInBasicMode(): void
     {
         $allowedChars = $this::BASIC_ALLOWED_CHARS;
         $data = 'xugbcnmpsxtphjicw';
@@ -51,7 +51,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertMatchesRegularExpression($allowedChars, $decrypted);
     }
 
-    public function testCanNotDecryptInBasicModeWithInvalidKey():void
+    public function testCanNotDecryptInBasicModeWithInvalidKey(): void
     {
         $data = 'xugbcnmpsxtphjicw';
         $key = 'thekey-';
@@ -61,7 +61,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals('', $encrypted);
     }
 
-    public function testCanEncryptInAlphaNumericMode():void
+    public function testCanEncryptInAlphaNumericMode(): void
     {
         $allowedChars = $this::ALNUM_ALLOWED_CHARS;
         $data = 'Encrypti0nProC3s5';
@@ -77,7 +77,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertMatchesRegularExpression($allowedChars, $encrypted);
     }
 
-    public function testCanNotEncryptInAlphaNumericModeWithInvalidKey():void
+    public function testCanNotEncryptInAlphaNumericModeWithInvalidKey(): void
     {
         $data = 'Encrypti0nProC3s5';
         $key = 'th3kEy-';
@@ -87,7 +87,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals('', $encrypted);
     }
 
-    public function testCanDecryptWithAlphaNumericMode():void
+    public function testCanDecryptWithAlphaNumericMode(): void
     {
         $allowedChars = $this::ALNUM_ALLOWED_CHARS;
         $data = 'Xu5B2NMpTxjPHJWCz';
@@ -103,7 +103,7 @@ final class VigenereCipherTest extends TestCase
         $this->assertMatchesRegularExpression($allowedChars, $decrypted);
     }
 
-    public function testCanNotDecryptInAlphaNumericModeWithInvalidKey():void
+    public function testCanNotDecryptInAlphaNumericModeWithInvalidKey(): void
     {
         $data = 'Xu5B2NMpTxjPHJWCz';
         $key = 'th3kEy-';
