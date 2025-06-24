@@ -10,8 +10,11 @@ use amculin\cryptography\classic\exceptions\InvalidBasicException;
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
  *
  * @version 1.1
+<<<<<<< Updated upstream
+=======
  *
  * @psalm-api
+>>>>>>> Stashed changes
  */
 class BasicVigenereCipher extends VigenereCipherBlueprint
 {
@@ -42,29 +45,41 @@ class BasicVigenereCipher extends VigenereCipherBlueprint
 
     public function isValidKey(string $pattern): bool
     {
+<<<<<<< Updated upstream
+        return preg_match($pattern, $this->key) == 1;
+=======
         if ('' != $pattern) {
             return 1 == preg_match($pattern, $this->key);
         }
 
         return false;
+>>>>>>> Stashed changes
     }
 
     public function isValidPlainText(string $pattern): bool
     {
+<<<<<<< Updated upstream
+        return preg_match($pattern, $this->plainText) == 1;
+=======
         if ('' != $pattern) {
             return 1 == preg_match($pattern, $this->plainText);
         }
 
         return false;
+>>>>>>> Stashed changes
     }
 
     public function isValidCipherText(string $pattern): bool
     {
+<<<<<<< Updated upstream
+        return preg_match($pattern, $this->cipherText) == 1;
+=======
         if ('' != $pattern) {
             return 1 == preg_match($pattern, $this->cipherText);
         }
 
         return false;
+>>>>>>> Stashed changes
     }
 
     public function isValid(): bool
