@@ -5,10 +5,13 @@ use amculin\cryptography\classic\enums\ProcessType;
 use amculin\cryptography\classic\exceptions\InvalidAlnumException;
 
 /**
- * This file is the main class for alpha-numric mode vigenere cipher algortithm
+ * This file is the main class for alpha-numric mode vigenere cipher algortithm.
  *
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
+ *
  * @version 1.1
+ *
+ * @psalm-api
  */
 class AlnumVigenereCipher extends VigenereCipherBlueprint
 {
@@ -37,48 +40,48 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isValidKey(string $pattern): bool
     {
-        return preg_match($pattern, $this->key) == 1;
+        if ('' != $pattern) {
+            return 1 == preg_match($pattern, $this->key);
+        }
+
+        return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isValidPlainText(string $pattern): bool
     {
-        return preg_match($pattern, $this->plainText) == 1;
+        if ('' != $pattern) {
+            return 1 == preg_match($pattern, $this->plainText);
+        }
+
+        return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isValidCipherText(string $pattern): bool
     {
-        return preg_match($pattern, $this->cipherText) == 1;
+        if ('' != $pattern) {
+            return 1 == preg_match($pattern, $this->cipherText);
+        }
+
+        return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isValid(): bool
     {
         try {
             $pattern = '/^[a-zA-Z0-9]*$/';
 
-            if (! $this->isValidKey($pattern)) {
+            if (!$this->isValidKey($pattern)) {
                 throw new InvalidAlnumException('Key');
             }
 
             if ($this->process == ProcessType::ENCRYPT->value) {
-                if (! $this->isValidPlainText($pattern)) {
+                if (!$this->isValidPlainText($pattern)) {
                     throw new InvalidAlnumException('Plain text');
                 }
             } else {
-                if (! $this->isValidCipherText($pattern)) {
+                if (!$this->isValidCipherText($pattern)) {
                     throw new InvalidAlnumException('Cipher text');
                 }
             }
@@ -89,6 +92,7 @@ class AlnumVigenereCipher extends VigenereCipherBlueprint
         }
 
         $this->setIsValid(true);
+
         return true;
     }
 }
