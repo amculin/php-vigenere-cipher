@@ -5,16 +5,10 @@ use amculin\cryptography\classic\enums\ProcessType;
 use amculin\cryptography\classic\exceptions\InvalidBasicException;
 
 /**
- * This file is the main class for basic vigenere cipher algortithm.
+ * This file is the main class for basic vigenere cipher algortithm
  *
  * @author Fahmi Auliya Tsani <amixcustomlinux@gmail.com>
- *
  * @version 1.1
-<<<<<<< Updated upstream
-=======
- *
- * @psalm-api
->>>>>>> Stashed changes
  */
 class BasicVigenereCipher extends VigenereCipherBlueprint
 {
@@ -43,60 +37,48 @@ class BasicVigenereCipher extends VigenereCipherBlueprint
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isValidKey(string $pattern): bool
     {
-<<<<<<< Updated upstream
         return preg_match($pattern, $this->key) == 1;
-=======
-        if ('' != $pattern) {
-            return 1 == preg_match($pattern, $this->key);
-        }
-
-        return false;
->>>>>>> Stashed changes
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isValidPlainText(string $pattern): bool
     {
-<<<<<<< Updated upstream
         return preg_match($pattern, $this->plainText) == 1;
-=======
-        if ('' != $pattern) {
-            return 1 == preg_match($pattern, $this->plainText);
-        }
-
-        return false;
->>>>>>> Stashed changes
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isValidCipherText(string $pattern): bool
     {
-<<<<<<< Updated upstream
         return preg_match($pattern, $this->cipherText) == 1;
-=======
-        if ('' != $pattern) {
-            return 1 == preg_match($pattern, $this->cipherText);
-        }
-
-        return false;
->>>>>>> Stashed changes
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isValid(): bool
     {
         try {
             $pattern = '/^[a-z]*$/';
 
-            if (!$this->isValidKey($pattern)) {
+            if (! $this->isValidKey($pattern)) {
                 throw new InvalidBasicException('Key');
             }
 
             if ($this->process == ProcessType::ENCRYPT->value) {
-                if (!$this->isValidPlainText($pattern)) {
+                if (! $this->isValidPlainText($pattern)) {
                     throw new InvalidBasicException('Plain text');
                 }
             } else {
-                if (!$this->isValidCipherText($pattern)) {
+                if (! $this->isValidCipherText($pattern)) {
                     throw new InvalidBasicException('Cipher text');
                 }
             }
