@@ -39,6 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist
+      
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse -l 10 source/ tests/
 
       - name: Run unit tests
         run: vendor/bin/phpunit --no-coverage tests/

@@ -1,8 +1,10 @@
 <?php
+
 namespace amculin\cryptography\classic;
 
 use amculin\cryptography\classic\enums\ProcessType;
 
+#[\AllowDynamicProperties]
 abstract class VigenereCipherBlueprint
 {
     /**
@@ -25,7 +27,7 @@ abstract class VigenereCipherBlueprint
      *
      * @var string
      */
-    public string $plainText;
+    public string $plainText = '';
 
     /**
      * The key used to encrypt plain text/message
@@ -47,7 +49,7 @@ abstract class VigenereCipherBlueprint
      *
      * @var string
      */
-    public string $cipherText;
+    public string $cipherText = '';
 
     /**
      * Method to validate key, plainText, and cipherText
@@ -127,7 +129,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getPlainText(): string|null
+    public function getPlainText(): string
     {
         return $this->plainText;
     }
@@ -171,7 +173,7 @@ abstract class VigenereCipherBlueprint
      *
      * @return string
      */
-    public function getCipherText(): string|null
+    public function getCipherText(): string
     {
         return $this->cipherText;
     }
@@ -206,13 +208,13 @@ abstract class VigenereCipherBlueprint
 
         $repeatTimes = floor($messageLength / $keyLength);
         $paddingKeyLength = (int) ($messageLength - ($keyLength * $repeatTimes));
-        
+
         $repeatedKey = '';
 
         for ($i = 0; $i < $repeatTimes; $i++) {
             $repeatedKey .= $key;
         }
-        
+
         return $repeatedKey . substr($key, 0, $paddingKeyLength);
     }
 
@@ -225,14 +227,16 @@ abstract class VigenereCipherBlueprint
     {
         $messageLength = strlen($this->plainText);
         $cipher = '';
-        
+
         for ($i = 0; $i < $messageLength; $i++) {
             $messageCharPosition = strpos($this->tabulaRecta, substr($this->plainText, $i, 1));
             $keyCharPosition = strpos($this->tabulaRecta, substr($this->key, $i, 1));
-            
-            $shift = $messageCharPosition + $keyCharPosition;
-            $cipherCharPosition = $shift % strlen($this->tabulaRecta);
-            $cipher .= substr($this->tabulaRecta, $cipherCharPosition, 1);
+
+            if ($messageCharPosition !== false && $keyCharPosition !== false) {
+                $shift = $messageCharPosition + $keyCharPosition;
+                $cipherCharPosition = $shift % strlen($this->tabulaRecta);
+                $cipher .= substr($this->tabulaRecta, $cipherCharPosition, 1);
+            }
         }
 
         $this->setCipherText($cipher);
@@ -247,17 +251,19 @@ abstract class VigenereCipherBlueprint
     {
         $messageLength = strlen($this->cipherText);
         $plain = '';
-        
+
         for ($i = 0; $i < $messageLength; $i++) {
             $messageCharPosition = strpos($this->tabulaRecta, substr($this->cipherText, $i, 1));
             $keyCharPosition = strpos($this->tabulaRecta, substr($this->key, $i, 1));
-            
-            $shift = $messageCharPosition - $keyCharPosition;
-            $plainCharPosition = $shift % strlen($this->tabulaRecta);
 
-            $plain .= substr($this->tabulaRecta, $plainCharPosition, 1);
+            if ($messageCharPosition !== false && $keyCharPosition !== false) {
+                $shift = $messageCharPosition - $keyCharPosition;
+                $plainCharPosition = $shift % strlen($this->tabulaRecta);
+
+                $plain .= substr($this->tabulaRecta, $plainCharPosition, 1);
+            }
         }
-        
+
         $this->setPlainText($plain);
     }
 }
