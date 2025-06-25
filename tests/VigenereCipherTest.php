@@ -26,9 +26,6 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals(strlen($data), strlen($encrypted));
         $this->assertEquals('xugbcnmpsxtphjicw', $encrypted);
         $this->assertNotEquals($data, $encrypted);
-        $this->assertIsString($data);
-        $this->assertIsString($key);
-        $this->assertIsString($encrypted);
         $this->assertMatchesRegularExpression($allowedChars, $data);
         $this->assertMatchesRegularExpression($allowedChars, $key);
         $this->assertMatchesRegularExpression($allowedChars, $encrypted);
@@ -55,9 +52,6 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals(strlen($data), strlen($decrypted));
         $this->assertEquals('encryptionprocess', $decrypted);
         $this->assertNotEquals($data, $decrypted);
-        $this->assertIsString($data);
-        $this->assertIsString($key);
-        $this->assertIsString($decrypted);
         $this->assertMatchesRegularExpression($allowedChars, $data);
         $this->assertMatchesRegularExpression($allowedChars, $key);
         $this->assertMatchesRegularExpression($allowedChars, $decrypted);
@@ -84,9 +78,6 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals(strlen($data), strlen($encrypted));
         $this->assertEquals('Xu5B2NMpTxjPHJWCz', $encrypted);
         $this->assertNotEquals($data, $encrypted);
-        $this->assertIsString($data);
-        $this->assertIsString($key);
-        $this->assertIsString($encrypted);
         $this->assertMatchesRegularExpression($allowedChars, $data);
         $this->assertMatchesRegularExpression($allowedChars, $key);
         $this->assertMatchesRegularExpression($allowedChars, $encrypted);
@@ -113,9 +104,6 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals(strlen($data), strlen($decrypted));
         $this->assertEquals('Encrypti0nProC3s5', $decrypted);
         $this->assertNotEquals($data, $decrypted);
-        $this->assertIsString($data);
-        $this->assertIsString($key);
-        $this->assertIsString($decrypted);
         $this->assertMatchesRegularExpression($allowedChars, $data);
         $this->assertMatchesRegularExpression($allowedChars, $key);
         $this->assertMatchesRegularExpression($allowedChars, $decrypted);
@@ -168,9 +156,6 @@ final class VigenereCipherTest extends TestCase
         $this->assertEquals(strlen($data), strlen($decrypted));
         $this->assertEquals('RW5jcnlwdGkwblByb0MzczU=', $decrypted);
         $this->assertNotEquals($data, $decrypted);
-        $this->assertIsString($data);
-        $this->assertIsString($key);
-        $this->assertIsString($decrypted);
         $this->assertMatchesRegularExpression($allowedChars, $data);
         $this->assertMatchesRegularExpression($allowedChars, $key);
         $this->assertMatchesRegularExpression($allowedChars, $decrypted);
