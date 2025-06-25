@@ -1,13 +1,19 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use amculin\cryptography\classic\VigenereCipher;
 use amculin\cryptography\classic\enums\VigenereMode;
+use amculin\cryptography\classic\VigenereCipher;
+use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 final class VigenereCipherTest extends TestCase
 {
-    const BASIC_ALLOWED_CHARS = '/[a-z]/';
-    const ALNUM_ALLOWED_CHARS = '/[a-zA-Z0-9]/';
+    public const BASIC_ALLOWED_CHARS = '/[a-z]/';
+    public const ALNUM_ALLOWED_CHARS = '/[a-zA-Z0-9]/';
+    public const BASE64_ALLOWED_CHARS = '/[A-Za-z0-9+\/=]/';
 
     public function testCanEncryptInBasicMode():void
     {
@@ -15,7 +21,7 @@ final class VigenereCipherTest extends TestCase
         $data = 'encryptionprocess';
         $key = 'thekey';
 
-        $encrypted = (string) VigenereCipher::encrypt($data, $key, VigenereMode::BASIC->value);
+        $encrypted = VigenereCipher::encrypt($data, $key, VigenereMode::BASIC->value);
 
         $this->assertEquals(strlen($data), strlen($encrypted));
         $this->assertEquals('xugbcnmpsxtphjicw', $encrypted);
@@ -41,7 +47,7 @@ final class VigenereCipherTest extends TestCase
         $data = 'xugbcnmpsxtphjicw';
         $key = 'thekey';
 
-        $decrypted = (string) VigenereCipher::decrypt($data, $key, VigenereMode::BASIC->value);
+        $decrypted = VigenereCipher::decrypt($data, $key, VigenereMode::BASIC->value);
 
         $this->assertEquals(strlen($data), strlen($decrypted));
         $this->assertEquals('encryptionprocess', $decrypted);
@@ -56,9 +62,9 @@ final class VigenereCipherTest extends TestCase
         $data = 'xugbcnmpsxtphjicw';
         $key = 'thekey-';
 
-        $encrypted = VigenereCipher::decrypt($data, $key, VigenereMode::BASIC->value);
+        $decrypted = VigenereCipher::decrypt($data, $key, VigenereMode::BASIC->value);
 
-        $this->assertEquals('', $encrypted);
+        $this->assertEquals('', $decrypted);
     }
 
     public function testCanEncryptInAlphaNumericMode():void
@@ -108,28 +114,60 @@ final class VigenereCipherTest extends TestCase
         $data = 'Xu5B2NMpTxjPHJWCz';
         $key = 'th3kEy-';
 
-        $encrypted = VigenereCipher::decrypt($data, $key, VigenereMode::ALPHA_NUMERIC->value);
+        $decrypted = VigenereCipher::decrypt($data, $key, VigenereMode::ALPHA_NUMERIC->value);
+
+        $this->assertEquals('', $decrypted);
+    }
+
+    public function testCanEncryptInBase64Mode(): void
+    {
+        $allowedChars = $this::BASE64_ALLOWED_CHARS;
+        $data = 'RW5jcnlwdGkwblByb0MzczU=';
+        $key = 'th3kEy';
+
+        $encrypted = VigenereCipher::encrypt($data, $key, VigenereMode::BASE64->value);
+
+        $this->assertEquals(strlen($data), strlen($encrypted));
+        $this->assertEquals('+3vGgYRQTqohHF4Vfl5TSWYx', $encrypted);
+        $this->assertNotEquals($data, $encrypted);
+        $this->assertMatchesRegularExpression($allowedChars, $data);
+        $this->assertMatchesRegularExpression($allowedChars, $key);
+        $this->assertMatchesRegularExpression($allowedChars, $encrypted);
+    }
+
+    public function testCanNotEncryptInBase64ModeWithInvalidKey(): void
+    {
+        $data = 'RW5jcnlwdGkwblByb0MzczU=';
+        $key = 'th3kEy-';
+
+        $encrypted = VigenereCipher::encrypt($data, $key, VigenereMode::BASE64->value);
 
         $this->assertEquals('', $encrypted);
     }
 
-    public function testCanGetBasicVigenereClass(): void
+    public function testCanDecryptWithBase64Mode():void
     {
-        $path = 'amculin\cryptography\classic\\';
-        $mode = VigenereMode::BASIC->value;
+        $allowedChars = $this::ALNUM_ALLOWED_CHARS;
+        $data = '+3vGgYRQTqohHF4Vfl5TSWYx';
+        $key = 'th3kEy';
 
-        $className = VigenereCipher::getClassName($mode);
+        $decrypted = VigenereCipher::decrypt($data, $key, VigenereMode::BASE64->value);
 
-        $this->assertEquals($path . 'BasicVigenereCipher', $className);
+        $this->assertEquals(strlen($data), strlen($decrypted));
+        $this->assertEquals('RW5jcnlwdGkwblByb0MzczU=', $decrypted);
+        $this->assertNotEquals($data, $decrypted);
+        $this->assertMatchesRegularExpression($allowedChars, $data);
+        $this->assertMatchesRegularExpression($allowedChars, $key);
+        $this->assertMatchesRegularExpression($allowedChars, $decrypted);
     }
 
-    public function testCanGetAlphaNumericVigenereClass(): void
+    public function testCanNotDecryptInBase64ModeWithInvalidKey():void
     {
-        $path = 'amculin\cryptography\classic\\';
-        $mode = VigenereMode::ALPHA_NUMERIC->value;
+        $data = '+3vGgYRQTqohHF4Vfl5TSWYx';
+        $key = 'th3kEy-';
 
-        $className = VigenereCipher::getClassName($mode);
+        $decrypted = VigenereCipher::decrypt($data, $key, VigenereMode::BASE64->value);
 
-        $this->assertEquals($path . 'AlnumVigenereCipher', $className);
+        $this->assertEquals('', $decrypted);
     }
 }
