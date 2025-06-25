@@ -10,82 +10,57 @@ abstract class VigenereCipherBlueprint
     /**
      * Default list of acceptable character to be used in vigenere cipher algorithm
      * By default, it just an alphabetical list.
-     *
-     * @var string
      */
     public string $tabulaRecta;
 
     /**
-     * The current process whether it is encrypt or decrypt
-     *
-     * @var string
+     * The current process whether it is encrypt or decrypt.
      */
     public string $process;
 
     /**
-     * The plain text/message to be encrypted
-     *
-     * @var string
+     * The plain text/message to be encrypted.
      */
     public string $plainText = '';
 
     /**
-     * The key used to encrypt plain text/message
-     *
-     * @var string
+     * The key used to encrypt plain text/message.
      */
     public string $key;
 
     /**
      * The isValid attribute to ensure whether the key, plainText, or cipherText
-     * is valid
-     *
-     * @var bool
+     * is valid.
      */
     public bool $isValid = false;
 
     /**
-     * The cipher text to be decrypted
-     *
-     * @var string
+     * The cipher text to be decrypted.
      */
     public string $cipherText = '';
 
     /**
-     * Method to validate key, plainText, and cipherText
-     *
-     * @return bool
+     * Method to validate key, plainText, and cipherText.
      */
     abstract public function isValid(): bool;
 
     /**
-     * Method to validate the key using regex pattern
-     *
-     * @param string $pattern
-     * @return bool
+     * Method to validate the key using regex pattern.
      */
     abstract public function isValidKey(string $pattern): bool;
 
     /**
-     * Method to validate the plain text using regex pattern
-     *
-     * @param string $pattern
-     * @return bool
+     * Method to validate the plain text using regex pattern.
      */
     abstract public function isValidPlainText(string $pattern): bool;
 
     /**
-     * Method to validate the cipher text using regex pattern
-     *
-     * @param string $pattern
-     * @return bool
+     * Method to validate the cipher text using regex pattern.
      */
     abstract public function isValidCipherText(string $pattern): bool;
 
     /**
-     * Method to get is valid status
-     *
-     * @return bool
+     * Method to get is valid status.
      */
     public function getIsValid(): bool
     {
@@ -93,10 +68,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Set the is valid status
-     *
-     * @param bool $isValid
-     * @return void
+     * Set the is valid status.
      */
     public function setIsValid(bool $isValid): void
     {
@@ -104,9 +76,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Method to get current process
-     *
-     * @return string
+     * Method to get current process.
      */
     public function getProcess(): string
     {
@@ -114,10 +84,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Set the current process
-     *
-     * @param string $process
-     * @return void
+     * Set the current process.
      */
     public function setProcess(string $process): void
     {
@@ -125,9 +92,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Method to get plain text
-     *
-     * @return string
+     * Method to get plain text.
      */
     public function getPlainText(): string
     {
@@ -135,10 +100,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Set the plain text/message/data to be encrypted
-     *
-     * @param string $plainText
-     * @return void
+     * Set the plain text/message/data to be encrypted.
      */
     public function setPlainText(string $plainText): void
     {
@@ -146,9 +108,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Method to get key
-     *
-     * @return string
+     * Method to get key.
      */
     public function getKey(): string
     {
@@ -156,10 +116,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Set the key to be be used in encryption/decryption process
-     *
-     * @param string $key
-     * @return void
+     * Set the key to be be used in encryption/decryption process.
      */
     public function setKey(string $key): void
     {
@@ -169,9 +126,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Method to get cipher text
-     *
-     * @return string
+     * Method to get cipher text.
      */
     public function getCipherText(): string
     {
@@ -179,10 +134,7 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Set the cipher text result from encryption process
-     *
-     * @param string $cipherText
-     * @return void
+     * Set the cipher text result from encryption process.
      */
     public function setCipherText(string $cipherText): void
     {
@@ -195,44 +147,39 @@ abstract class VigenereCipherBlueprint
      * Example:
      *     Plain text: vigenerecipher (14 characters)
      *     Key: abcd (4 characters)
-     *     Repeated key: abcdabcdabcdab (14 characters)
-     *
-     * @param string $key
-     * @return string
+     *     Repeated key: abcdabcdabcdab (14 characters).
      */
     public function generateKey(string $key): string
     {
         $keyLength = strlen($key);
-        $messageLength = strlen($this->process == ProcessType::ENCRYPT->value ? $this->plainText :
-            $this->cipherText);
+        $messageLength = strlen($this->process == ProcessType::ENCRYPT->value ? $this->plainText
+            : $this->cipherText);
 
         $repeatTimes = floor($messageLength / $keyLength);
         $paddingKeyLength = (int) ($messageLength - ($keyLength * $repeatTimes));
 
         $repeatedKey = '';
 
-        for ($i = 0; $i < $repeatTimes; $i++) {
+        for ($i = 0; $i < $repeatTimes; ++$i) {
             $repeatedKey .= $key;
         }
 
-        return $repeatedKey . substr($key, 0, $paddingKeyLength);
+        return $repeatedKey.substr($key, 0, $paddingKeyLength);
     }
 
     /**
-     * Method to encrypt the plain text
-     *
-     * @return void
+     * Method to encrypt the plain text.
      */
     public function encrypt(): void
     {
         $messageLength = strlen($this->plainText);
         $cipher = '';
 
-        for ($i = 0; $i < $messageLength; $i++) {
+        for ($i = 0; $i < $messageLength; ++$i) {
             $messageCharPosition = strpos($this->tabulaRecta, substr($this->plainText, $i, 1));
             $keyCharPosition = strpos($this->tabulaRecta, substr($this->key, $i, 1));
 
-            if ($messageCharPosition !== false && $keyCharPosition !== false) {
+            if (false !== $messageCharPosition && false !== $keyCharPosition) {
                 $shift = $messageCharPosition + $keyCharPosition;
                 $cipherCharPosition = $shift % strlen($this->tabulaRecta);
                 $cipher .= substr($this->tabulaRecta, $cipherCharPosition, 1);
@@ -243,20 +190,18 @@ abstract class VigenereCipherBlueprint
     }
 
     /**
-     * Method to decrypt the cipher text
-     *
-     * @return void
+     * Method to decrypt the cipher text.
      */
     public function decrypt(): void
     {
         $messageLength = strlen($this->cipherText);
         $plain = '';
 
-        for ($i = 0; $i < $messageLength; $i++) {
+        for ($i = 0; $i < $messageLength; ++$i) {
             $messageCharPosition = strpos($this->tabulaRecta, substr($this->cipherText, $i, 1));
             $keyCharPosition = strpos($this->tabulaRecta, substr($this->key, $i, 1));
 
-            if ($messageCharPosition !== false && $keyCharPosition !== false) {
+            if (false !== $messageCharPosition && false !== $keyCharPosition) {
                 $shift = $messageCharPosition - $keyCharPosition;
                 $plainCharPosition = $shift % strlen($this->tabulaRecta);
 
