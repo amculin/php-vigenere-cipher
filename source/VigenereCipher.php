@@ -33,6 +33,8 @@ class VigenereCipher
     ): VigenereCipherBlueprint {
         if ($mode == VigenereMode::ALPHA_NUMERIC->value) {
             return new AlnumVigenereCipher($data, $key, $processName);
+        } elseif ($mode == VigenereMode::BASE64->value) {
+            return new Base64VigenereCipher($data, $key, $processName);
         }
 
         return new BasicVigenereCipher($data, $key, $processName);
