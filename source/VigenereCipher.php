@@ -2,9 +2,6 @@
 
 namespace amculin\cryptography\classic;
 
-use amculin\cryptography\classic\AlnumVigenereCipher;
-use amculin\cryptography\classic\BasicVigenereCipher;
-use amculin\cryptography\classic\VigenereCipherBlueprint;
 use amculin\cryptography\classic\enums\ProcessType;
 use amculin\cryptography\classic\enums\VigenereMode;
 
@@ -22,7 +19,7 @@ class VigenereCipher
             $className = 'AlnumVigenereCipher';
         }
 
-        return $path . $className;
+        return $path.$className;
     }
 
     public static function getClass(
@@ -33,7 +30,8 @@ class VigenereCipher
     ): VigenereCipherBlueprint {
         if ($mode == VigenereMode::ALPHA_NUMERIC->value) {
             return new AlnumVigenereCipher($data, $key, $processName);
-        } elseif ($mode == VigenereMode::BASE64->value) {
+        }
+        if ($mode == VigenereMode::BASE64->value) {
             return new Base64VigenereCipher($data, $key, $processName);
         }
 
